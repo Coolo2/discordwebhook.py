@@ -12,5 +12,5 @@ webhook.username("Webhook username overwritten")
 webhook.message("A message to go with the embed!")
 #Setting webhook username and message (these are optional)
 
-webhook.send("webhook_url", embeds=[embed.embed]) 
+webhook.send("webhook_url", embeds=[embed]) 
 #embeds can be embed without a list - removal of the.embed should be coming soon

@@ -69,7 +69,8 @@ Set what mentions will work for the webhook - setting an option to False will di
 
 **.send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
 
-Synchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+| Synchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+| A message argument can be added for one line webhook sends
 
 | 
 
@@ -80,6 +81,14 @@ Synchronously send a webhook to the webhook_url provided - Only works for discor
 ********************************************
     | Synchronous or asynchronous embed creation
     | All Embed creation functions are in these classes
+
+**.create.Embed(kwargs title : str, description : str, color : hex, timestamp : boolean)**
+
+Creates embed object with non-essential kwargs to have the same experience as discord.py
+
+**.create.Embed(kwargs title : str, description : str, color : hex, timestamp : boolean)**
+
+Creates embed object with non-essential kwargs to have the same experience as discord.py
 
 **.title(title : string)**
 
@@ -162,7 +171,8 @@ Set what mentions will work for the webhook - setting an option to False will di
 
 **await .send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
 
-Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+| Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+| A message argument can be added for one line webhook sends
 
 | 
 
@@ -173,9 +183,9 @@ Asynchronously send a webhook to the webhook_url provided - Only works for disco
     | For fetching information - not creating, not sending
     | All synchronous as asynchronous is not needed 
 
-********************************
-``.fetch``.Webhook(url)
-********************************
+********************************************
+``.fetch``.Webhook(url : string, Webhook())
+********************************************
 
 | Fetching webhook information from a given discord webhook url 
 | Synchronous 
@@ -215,6 +225,26 @@ The webhook token
 **.url** 
 
 The webhook URL (the inputted url)
+
+|
+
+#########################################
+``discordwebhook``.discordwebhook
+#########################################
+
+**************************
+`.discordwebhook`.version
+**************************
+
+**.current.name**
+
+Current version name 
+
+**.current.release_date**
+
+Current version release date
+
+|
 
 ##############
 Examples
@@ -270,7 +300,20 @@ Version History
 ##########################
 
 *********************************
-0.0.6 - 28th July 2020 (current)
+0.0.7 - 28th July 2020 (current)
+*********************************
+
+ | Added discordwebhook.discordwebhook
+ | `discordwebhook.fetch.Webhook()` now supports a Webhook() object instead of just string
+ | Changed `discordwebhook.discordwebhook.version.recent` to `current` with alias `recent`
+ | When using webhooks set information is stored in variables and can be accessed later by using (webhook).(setData), for example webhook.message
+ | Added message and tts kwarg to .send to allow for one line webhook sends
+ | Added kwargs to embed creation to create an experience identical to discord.py
+ | Added docstrings at the top of files
+ | Started error handling for embeds, checks on send to keep projects working
+
+*********************************
+0.0.6 - 28th July 2020 
 *********************************
 
  | Fixed fatal errors with 0.0.5

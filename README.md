@@ -1,4 +1,4 @@
-# discordwebhook.py
+# discordwebhook.py 0.0.6
 A python package for using discord webhooks. The only with asynchronous and synchronous options and fetching webhook information. Useful for projects which may require the use of discord.py or projects that dont
 
 Installation

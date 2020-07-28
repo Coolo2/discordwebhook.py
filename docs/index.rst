@@ -127,9 +127,16 @@ Add field to the embed
 
 | 
 
-#########################
+#############################
+`discordwebhook`.asyncCreate
+#############################
+
+| Asynchronous creation functions and classes
+
+**************************
 `.asyncCreate`.Webhook()
-#########################
+**************************
+
     | Asynchronous Webhook Creation
     | All asynchronous webhook creation/usage functions are in this class
 
@@ -213,7 +220,11 @@ The webhook URL (the inputted url)
 Examples
 ##############
 
+| Library examples
+
+********************************
 General Example
+********************************
 
 .. code-block:: python
 
@@ -231,7 +242,9 @@ General Example
 
     webhook.send("WEBHOOK_URL", embed=embed) #Send webhook to given link with the embed
 
+********************************
 Fetch example 
+********************************
 
 .. code-block:: python 
 
@@ -262,6 +275,7 @@ Version History
 
  | Changed embed class so embed.embed can be replaced with just embed - simplifying sends
  | Aditions and fixes to documentation
+ | Documentation addition to PyPi page 
 
 *********************************
 0.0.4 - 28th July 2020 

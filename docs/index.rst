@@ -273,6 +273,12 @@ Version History
 0.0.5 - 28th July 2020 (current)
 *********************************
 
+ | Fixed fatal errors with 0.0.5
+
+*********************************
+0.0.5 - 28th July 2020
+*********************************
+
  | Changed embed class so embed.embed can be replaced with just embed - simplifying sends
  | Aditions and fixes to documentation
  | Documentation addition to PyPi page 

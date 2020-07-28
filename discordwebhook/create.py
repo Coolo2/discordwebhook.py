@@ -64,15 +64,15 @@ class Webhook():
             if "embed" in kwargs:
                 if type(kwargs["embed"]) is list:
                     for item in kwargs["embed"]:
-                        self.webhook["embeds"].append(item)
+                        self.webhook["embeds"].append(item.embed)
                 else:
-                    self.webhook["embeds"].append(kwargs["embed"])
+                    self.webhook["embeds"].append(kwargs["embed"].embed)
             if "embeds" in kwargs:
                 if type(kwargs["embeds"]) is list:
                     for item in kwargs["embeds"]:
-                        self.webhook["embeds"].append(item)
+                        self.webhook["embeds"].append(item.embed)
                 else:
-                    self.webhook["embeds"].append(kwargs["embeds"])
+                    self.webhook["embeds"].append(kwargs["embeds"].embed)
 
 
         result = requests.post(WebhookURL, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"})
@@ -88,7 +88,6 @@ class Embed():
     def __init__(self):
         self.embed = {}
         self.fields = []
-        
 
     def description(self, description):
         """Set embed description"""

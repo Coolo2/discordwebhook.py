@@ -1,8 +1,15 @@
+"""
+Fetching webhook information from a Webhook() object or a url
+"""
+
 import requests, json
+from discordwebhook import create, asyncCreate
 
 class Webhook(object):
     def __init__(self, url):
         """Returns for Webhook information"""
+        if isinstance(url, create.Webhook) or isinstance(url, asyncCreate.Webhook):
+            url = url.url
         self.webhook = requests.get(url).json()
         self.id = int(self.webhook["id"])
         self.name = self.webhook["name"]

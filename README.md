@@ -20,6 +20,6 @@ embed.title("Github Logo") # Embed title as 'Github Logo'
 embed.image(url="https://image.flaticon.com/icons/png/512/25/25231.png") # Embed image as github logo
 embed.color(0x808080) # Gray embed color
 
-webhook.send("WEBHOOK_URL", embed=embed.embed) #Send webhook to given link with the embed
+webhook.send("WEBHOOK_URL", embed=embed) #Send webhook to given link with the embed
 ```
 Example with a fully formatted embed, message, custom username 

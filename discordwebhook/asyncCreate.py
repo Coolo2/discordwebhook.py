@@ -1,6 +1,15 @@
-
+"""
+Creation of Webhooks and Embeds asynchronously
+"""
 
 import requests, json, datetime, aiohttp
+
+class ErrorHandling:
+    def requestErrors(webhook):
+        for value in webhook["embeds"]:
+            for field in value["fields"]:
+                if field["name"].replace(" ", "") == "" or field["value"] == "":
+                    raise Exception("Cannot use an empty field value/name")
 
 class Webhook():
     def __init__(self):
@@ -70,9 +79,19 @@ class Webhook():
                         self.webhook["embeds"].append(item.embed)
                 else:
                     self.webhook["embeds"].append(kwargs["embeds"].embed)
+            if "message" in kwargs:
+                self.webhook["content"] = kwargs["message"]
+                self.message = kwargs["message"]
+            if "tts" in kwargs:
+                if kwargs["tts"] == True or kwargs["tts"] == None:
+                    self.webhook["tts"] = "true"
+                    self.tts = True
+                else:
+                    self.tts = False
+
+        ErrorHandling.requestErrors(self.webhook)
 
 
-        #result = requests.post(WebhookURL, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"})
         async with aiohttp.ClientSession() as session:
             async with session.post(WebhookURL, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"}) as response:
                 try:
@@ -83,9 +102,17 @@ class Webhook():
                     return "Payload delivered successfully, code {}.".format(response.status)
 
 class Embed():
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.embed = {}
         self.fields = []
+        for item in ["title", "description", "color", "colour", "timestamp"]:
+            if item in kwargs:
+                if item == "colour":
+                    self.embed["color"] = int(str(kwargs[item]), 0)
+                elif item == "timestamp":
+                    self.embed["timestamp"] = datetime.datetime.utcnow().isoformat()
+                else:
+                    self.embed[item] = kwargs[item]
 
     def description(self, description):
         """Set embed description"""
@@ -99,17 +126,25 @@ class Embed():
         """Set embed footer"""
         self.embed["footer"] = kwargs
     
+    add_footer, set_footer = footer, footer
+    
     def image(self, **kwargs):
         """Set embed image: url, proxy_url, height, width"""
         self.embed["image"] = kwargs
+    
+    set_image = image
     
     def video(self, **kwargs):
         """Set embed video: url, height, width"""
         self.embed["video"] = kwargs
     
+    set_video = video
+    
     def thumbnail(self, **kwargs):
         """Set embed thumbnail: url, proxy_url, height, width"""
         self.embed["thumbnail"] = kwargs
+    
+    set_thumbnail = thumbnail
     
     def add_field(self, **kwargs):
         """Create an embed field, stackable: name, value, inline (boolean)"""
@@ -125,6 +160,8 @@ class Embed():
     def author(self, **kwargs):
         """Set embed author: name, url, icon_url, proxy_icon_url"""
         self.embed["author"] = kwargs
+    
+    set_author = author
 
     def color(self, color):
         """Set embed color"""

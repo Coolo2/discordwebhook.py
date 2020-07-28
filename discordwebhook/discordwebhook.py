@@ -1,4 +1,6 @@
 class version:
-    class recent():
-        name = "0.0.5"
+    class current:
+        name = "0.0.7"
         release_date = "28 July 2020"
+    
+    recent = current

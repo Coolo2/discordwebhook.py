@@ -73,37 +73,7 @@ Synchronously send a webhook to the webhook_url provided - Only works for discor
 
 | 
 
-*************************
-`.asyncCreate`.Webhook()
-*************************
-    | Asynchronous Webhook Creation
-    | All asynchronous webhook creation/usage functions are in this class
 
-**.message(message : str)**
-
-Add a message to the webhook 
-
-**.username(username :  string)**
-
-Overrwrite webhook username / set username for the webhook
-
-**.avatar_url(url : string)**
-
-Overwrite webhook avatar url / set webhook avatar url
-
-**.tts(boolean)**
-
-Set if the webhook is a tts message 
-
-**.allowed_mentions(user : boolean, everyone : boolean, roles : boolean)**
-
-Set what mentions will work for the webhook - setting an option to False will disable mentions from working
-
-**await .send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
-
-Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
-
-| 
 
 ********************************************
 `.create`.Embed() or `.asyncCreate`.Embed()
@@ -157,6 +127,38 @@ Add field to the embed
 
 | 
 
+#########################
+`.asyncCreate`.Webhook()
+#########################
+    | Asynchronous Webhook Creation
+    | All asynchronous webhook creation/usage functions are in this class
+
+**.message(message : str)**
+
+Add a message to the webhook 
+
+**.username(username :  string)**
+
+Overrwrite webhook username / set username for the webhook
+
+**.avatar_url(url : string)**
+
+Overwrite webhook avatar url / set webhook avatar url
+
+**.tts(boolean)**
+
+Set if the webhook is a tts message 
+
+**.allowed_mentions(user : boolean, everyone : boolean, roles : boolean)**
+
+Set what mentions will work for the webhook - setting an option to False will disable mentions from working
+
+**await .send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
+
+Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+
+| 
+
 #########################################
 ``discordwebhook``.fetch
 #########################################
@@ -206,3 +208,87 @@ The webhook token
 **.url** 
 
 The webhook URL (the inputted url)
+
+##############
+Examples
+##############
+
+General Example
+
+.. code-block:: python
+
+    from discordwebhook import create # Import discordwebhook create
+
+    webhook = create.Webhook() # Create Webhook object
+    embed = create.Embed() # Create embed object
+
+    webhook.username("Example Webhook") # Override webhook username as 'Example Webhook'
+    webhook.message("Hello! This is a message from an example webhook with the `discordwebhook.py` library!") # Message to go with the embed
+
+    embed.title("Github Logo") # Embed title as 'Github Logo'
+    embed.image(url="https://image.flaticon.com/icons/png/512/25/25231.png") # Embed image as github logo
+    embed.color(0x808080) # Gray embed color
+
+    webhook.send("WEBHOOK_URL", embed=embed) #Send webhook to given link with the embed
+
+Fetch example 
+
+.. code-block:: python 
+
+    from discordwebhook import fetch 
+    #Importing the file for fetching webhook information
+
+    webhook = fetch.Webhook("WEBHOOK_LINK")
+    #Creates a variable with all webhook information needed
+
+    print(f"""
+    The inputted webhook's name is: {webhook.name}
+    The inputted webhook's channel and guild id's are: {webhook.channel_id} and {webhook.guild_id}
+    The inputted webhook's ID and token are: {webhook.id} and {webhook.token}
+    """)
+    #Prints information about the webhook in the format provided
+
+More examples can be found at the `GitHub page <https://github.com/Coolo22/discordwebhook.py/>`_ Examples folder.
+
+|
+
+##########################
+Version History
+##########################
+
+*********************************
+0.0.5 - 28th July 2020 (current)
+*********************************
+
+ | Changed embed class so embed.embed can be replaced with just embed - simplifying sends
+ | Aditions and fixes to documentation
+
+*********************************
+0.0.4 - 28th July 2020 
+*********************************
+
+ | Added mention permissions (if mentions will work)
+ | Reorganised some functions 
+ | Created documentation - Not listed on PyPi page 
+
+***********************
+0.0.3 - 28th July 2020
+***********************
+
+ | Fixed fatal bugs with the previous release with asyncio 
+
+***********************
+0.0.2 - 28th July 2020
+***********************
+
+ | Moved to a different name 
+ | Fixed bugs with original release 
+
+***********************
+0.0.1 - 28th July 2020
+***********************
+
+ | Original release on another name 
+ | Added main features such as Webhook post and creation
+ | Added embeds
+ | Added asynchronous and synchronous functions

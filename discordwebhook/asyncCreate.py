@@ -5,7 +5,7 @@ Creation of Webhooks and Embeds asynchronously
 import requests, json, datetime, aiohttp
 
 class ErrorHandling:
-    def requestErrors(webhook):
+    def requestErrors(self, webhook):
         for value in webhook["embeds"]:
             if "fields" in value:
                 for field in value["fields"]:
@@ -13,7 +13,8 @@ class ErrorHandling:
                         raise Exception("Cannot use an empty field value/name")
 
 class Webhook():
-    def __init__(self):
+    def __init__(self, url=None):
+        self.url = url
         self.webhook = {}
 
     def Webhook(self):
@@ -64,11 +65,16 @@ class Webhook():
         self.allowed_mentions = finallist
         return self.allowed_mentions
     
-    async def send(self, WebhookURL, **kwargs):
+    async def send(self, url=None, **kwargs):
         """send the webhook asynchronously: embed"""
 
         self.webhook["embeds"] = []
-        self.url = WebhookURL
+
+        if url == None:
+            if self.url == None:
+                raise Exception("No url provided")  
+        else:
+            self.url = url
 
         if kwargs != {}:
             if "embed" in kwargs:
@@ -93,11 +99,11 @@ class Webhook():
                 else:
                     self.tts = False
 
-        ErrorHandling.requestErrors(self.webhook)
+        ErrorHandling.requestErrors(self, self.webhook)
 
 
         async with aiohttp.ClientSession() as session:
-            async with session.post(WebhookURL, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"}) as response:
+            async with session.post(self.url, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"}) as response:
                 try:
                     response.raise_for_status()
                 except Exception as err:

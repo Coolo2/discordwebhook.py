@@ -7,9 +7,10 @@ import requests, json, datetime, aiohttp
 class ErrorHandling:
     def requestErrors(webhook):
         for value in webhook["embeds"]:
-            for field in value["fields"]:
-                if field["name"].replace(" ", "") == "" or field["value"] == "":
-                    raise Exception("Cannot use an empty field value/name")
+            if "fields" in value:
+                for field in value["fields"]:
+                    if field["name"].replace(" ", "") == "" or field["value"] == "":
+                        raise Exception("Cannot use an empty field value/name")
 
 class Webhook():
     def __init__(self):
@@ -22,6 +23,7 @@ class Webhook():
         """override the default username of the webhook"""
         self.webhook["username"] = username
         self.author = username
+        return self.author
     
     username = author
     
@@ -29,6 +31,7 @@ class Webhook():
         """	override the default avatar of the webhook"""
         self.webhook["avatar_url"] = url
         self.avatar_url = url
+        return self.avatar_url
     
     def tts(self, boolean=None):
         """set if this is a TTS message"""
@@ -37,6 +40,7 @@ class Webhook():
             self.tts = True
         else:
             self.tts = False
+        return self.tts
     
     def message(self, text, **kwargs):
         """the message contents (up to 2000 characters)"""
@@ -47,6 +51,7 @@ class Webhook():
         if text:
             self.webhook["content"] = text
             self.message = text
+            return self.message
     
     def allowed_mentions(self, **kwargs):
         """options for if mentions are allowed from the webhook: everyone, roles, users"""
@@ -57,7 +62,6 @@ class Webhook():
 
         self.webhook["allowed_mentions"] = {"parse":finallist}
         self.allowed_mentions = finallist
-
         return self.allowed_mentions
     
     async def send(self, WebhookURL, **kwargs):

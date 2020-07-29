@@ -7,9 +7,10 @@ import requests, json, datetime
 class ErrorHandling:
     def requestErrors(webhook):
         for value in webhook["embeds"]:
-            for field in value["fields"]:
-                if field["name"].replace(" ", "") == "" or field["value"] == "":
-                    raise Exception("Cannot use an empty field value/name")
+            if "fields" in value:
+                for field in value["fields"]:
+                    if field["name"].replace(" ", "") == "" or field["value"] == "":
+                        raise Exception("Cannot use an empty field value/name")
 
 class Webhook():
     def __init__(self):

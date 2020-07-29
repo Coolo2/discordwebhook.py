@@ -1,11 +1,10 @@
 """
 Creation of Webhooks and Embeds synchronously
 """
-
 import requests, json, datetime
 
 class ErrorHandling:
-    def requestErrors(webhook):
+    def requestErrors(self, webhook):
         for value in webhook["embeds"]:
             if "fields" in value:
                 for field in value["fields"]:
@@ -13,10 +12,9 @@ class ErrorHandling:
                         raise Exception("Cannot use an empty field value/name")
 
 class Webhook():
-    def __init__(self):
+    def __init__(self, url=None):
+        self.url = url
         self.webhook = {}
-
-    
 
     def Webhook(self):
         return self.webhook
@@ -65,14 +63,19 @@ class Webhook():
 
         self.webhook["allowed_mentions"] = {"parse":finallist}
         self.allowed_mentions = finallist
-
         return self.allowed_mentions
     
-    def send(self, WebhookURL, **kwargs):
+    def send(self, url=None, **kwargs):
         """send the webhook"""
         
         self.webhook["embeds"] = []
-        self.url = WebhookURL
+        
+        if url == None:
+            if self.url == None:
+                raise Exception("No url provided")  
+        else:
+            self.url = url
+            
 
         if kwargs != {}:
             if "embed" in kwargs:
@@ -97,9 +100,9 @@ class Webhook():
                 else:
                     self.tts = False
 
-        ErrorHandling.requestErrors(self.webhook)
+        ErrorHandling.requestErrors(self, self.webhook)
 
-        result = requests.post(WebhookURL, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"})
+        result = requests.post(self.url, data=json.dumps(self.webhook), headers={"Content-Type": "application/json"})
 
         try:
             result.raise_for_status()

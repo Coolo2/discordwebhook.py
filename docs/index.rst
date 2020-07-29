@@ -41,36 +41,39 @@ Or download it from the `PyPi page <https://pypi.org/project/discordwebhook.py/>
 `discordwebhook`.create
 #############################################
 
-*************************
-`.create`.Webhook()
-*************************
-    | Synchronous Webhook Creation
-    | All synchronous webhook usage functions are in this class
+| Creating webhooks and embeds synchronously 
+| Has alias `discordwebhook.use` post version `0.0.9`
+
+***************************************************************************
+`.create`.Webhook(url : str [optional, can be provided with .send])
+***************************************************************************
+| Synchronous Webhook Creation
+| All synchronous webhook usage functions are in this class
 
 **.message(message : str)**
 
-Add a message to the webhook 
+    Add a message to the webhook 
 
 **.username(username :  string)**
 
-Overrwrite webhook username / set username for the webhook
+    Overrwrite webhook username / set username for the webhook
 
 **.avatar_url(url : string)**
 
-Overwrite webhook avatar url / set webhook avatar url
+    Overwrite webhook avatar url / set webhook avatar url
 
 **.tts(boolean)**
 
-Set if the webhook is a tts message 
+    Set if the webhook is a tts message 
 
 **.allowed_mentions(user : boolean, everyone : boolean, roles : boolean)**
 
-Set what mentions will work for the webhook - setting an option to False will disable mentions from working
+    Set what mentions will work for the webhook - setting an option to False will disable mentions from working
 
 **.send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
 
-| Synchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
-| A message argument can be added for one line webhook sends
+    | Synchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+    | A message argument can be added for one line webhook sends
 
 | 
 
@@ -79,60 +82,60 @@ Set what mentions will work for the webhook - setting an option to False will di
 ********************************************
 `.create`.Embed() or `.asyncCreate`.Embed()
 ********************************************
-    | Synchronous or asynchronous embed creation
-    | All Embed creation functions are in these classes
+| Synchronous or asynchronous embed creation
+| All Embed creation functions are in these classes
 
 **.create.Embed(kwargs title : str, description : str, color : hex, timestamp : boolean)**
 
-Creates embed object with non-essential kwargs to have the same experience as discord.py
+    Creates embed object with non-essential kwargs to have the same experience as discord.py
 
 **.create.Embed(kwargs title : str, description : str, color : hex, timestamp : boolean)**
 
-Creates embed object with non-essential kwargs to have the same experience as discord.py
+    Creates embed object with non-essential kwargs to have the same experience as discord.py
 
 **.title(title : string)**
 
-Add a title to the embed
+    Add a title to the embed
 
 **.description(description : string)**
 
-Add a description to the embed 
+    Add a description to the embed 
 
 **.footer(text : string, icon_url : string, proxy_icon_url : string)**
 
-Add a footer to the embed 
+    Add a footer to the embed 
 
 **.image(url : string, proxy_url : string, height : string, width : string)**
 
-Add an image to the embed 
+    Add an image to the embed 
 
 **.video(url : string, width : string, height : string)**
 
-Add a video to the embed 
+    Add a video to the embed 
 
 **.author(name : string, url : string, icon_url : string, proxy_icon_url : string)**
 
-Add an author to the embed 
+    Add an author to the embed 
 
 **.thumbnail(url : string, proxy_url : string, width : string, height : string)**
 
-Set embed thumbnail
+    Set embed thumbnail
 
 **.timestamp()**
 
-Add a timestamp to the embed in current UTC time 
+    Add a timestamp to the embed in current UTC time 
 
 **.color(color : hex)**
 
-Set embed color 
+    Set embed color 
 
 **.colour(color : hex)**
 
-Alias for **.color**
+    Alias for **.color**
 
 **.add_field(name : string, value : string, inline : boolean : True)**
 
-Add field to the embed
+    Add field to the embed
 
 | 
 
@@ -141,38 +144,39 @@ Add field to the embed
 #############################
 
 | Asynchronous creation functions and classes
+| Has alias `discordwebhook.asyncUse` post version `0.0.9`
 
-**************************
-`.asyncCreate`.Webhook()
-**************************
+****************************************************************************
+`.asyncCreate`.Webhook(url : str [optional, can be provided with .send])
+****************************************************************************
 
-    | Asynchronous Webhook Creation
-    | All asynchronous webhook creation/usage functions are in this class
+| Asynchronous Webhook Creation
+| All asynchronous webhook creation/usage functions are in this class
 
 **.message(message : str)**
 
-Add a message to the webhook 
+    Add a message to the webhook 
 
 **.username(username :  string)**
 
-Overrwrite webhook username / set username for the webhook
+    Overrwrite webhook username / set username for the webhook
 
 **.avatar_url(url : string)**
 
-Overwrite webhook avatar url / set webhook avatar url
+    Overwrite webhook avatar url / set webhook avatar url
 
 **.tts(boolean)**
 
-Set if the webhook is a tts message 
+    Set if the webhook is a tts message 
 
 **.allowed_mentions(user : boolean, everyone : boolean, roles : boolean)**
 
-Set what mentions will work for the webhook - setting an option to False will disable mentions from working
+    Set what mentions will work for the webhook - setting an option to False will disable mentions from working
 
 **await .send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
 
-| Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
-| A message argument can be added for one line webhook sends
+    | Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
+    | A message argument can be added for one line webhook sends
 
 | 
 
@@ -180,8 +184,8 @@ Set what mentions will work for the webhook - setting an option to False will di
 ``discordwebhook``.fetch
 #########################################
 
-    | For fetching information - not creating, not sending
-    | All synchronous as asynchronous is not needed 
+| For fetching information - not creating, not sending
+| All synchronous as asynchronous is not needed 
 
 ********************************************
 ``.fetch``.Webhook(url : string, Webhook())
@@ -192,39 +196,39 @@ Set what mentions will work for the webhook - setting an option to False will di
 
 **.webhook** 
 
-The raw webhook json 
+    The raw webhook json 
 
 **.id**
 
-The webhook ID 
+    The webhook ID 
 
 **.name**
 
-The webhook name - default name shown on webhook usage 
+    The webhook name - default name shown on webhook usage 
 
 **.avatar_url** 
 
-The set avatar url of the webhook - a discord avatar url 
+    The set avatar url of the webhook - a discord avatar url 
 
 **.channel_id**
 
-The channel id of the webhook 
+    The channel id of the webhook 
 
 **.guild_id**
 
-The guild id of the webhook 
+    The guild id of the webhook 
 
 **.application_id**
 
-The webhook application id
+    The webhook application id
 
 **.token**
 
-The webhook token
+    The webhook token
 
 **.url** 
 
-The webhook URL (the inputted url)
+    The webhook URL (the inputted url)
 
 |
 
@@ -232,17 +236,19 @@ The webhook URL (the inputted url)
 ``discordwebhook``.discordwebhook
 #########################################
 
+| Information about the package
+
 **************************
 `.discordwebhook`.version
 **************************
 
 **.current.name**
 
-Current version name 
+    Current version name 
 
 **.current.release_date**
 
-Current version release date
+    Current version release date
 
 |
 
@@ -260,7 +266,7 @@ General Example
 
     from discordwebhook import create # Import discordwebhook create
 
-    webhook = create.Webhook() # Create Webhook object
+    webhook = create.Webhook("WEBHOOK_URL") # Create Webhook object
     embed = create.Embed() # Create embed object
 
     webhook.username("Example Webhook") # Override webhook username as 'Example Webhook'
@@ -270,7 +276,7 @@ General Example
     embed.image(url="https://image.flaticon.com/icons/png/512/25/25231.png") # Embed image as github logo
     embed.color(0x808080) # Gray embed color
 
-    webhook.send("WEBHOOK_URL", embed=embed) #Send webhook to given link with the embed
+    webhook.send(embed=embed) #Send webhook to given link with the embed
 
 ********************************
 Fetch example 
@@ -300,7 +306,24 @@ Version History
 ##########################
 
 *********************************
-0.0.7 - 28th July 2020 (current)
+0.1.0 - 29th July 2020 (current)
+*********************************
+
+ | Fixed asyncCreate not returning any values
+ | Added error handling for invalid token in fetching webhooks 
+ | Added error handling for no provided url
+ | Added ability for setting webhook link prior to sending it, adding a link to the create.Webhook object
+ | Added alias `discordwebhook.use` for `discordwebhook.create` and `discordwebhook.asyncUse` for `discordwebhook.asyncCreate`
+ | Many changes to documentation and other things
+
+*********************************
+0.0.8 - 28th July 2020
+*********************************
+
+ | Fixed fatal error which occured with all embeds after 0.0.7
+
+*********************************
+0.0.7 - 28th July 2020 
 *********************************
 
  | Added discordwebhook.discordwebhook

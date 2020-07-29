@@ -2,6 +2,8 @@
 
 Examples for the library 
 
+For documentation see the [readthedocs page](https://discordwebhook.readthedocs.io/en/latest/)
+
 * `asynchronousSENDING.py` - Sending a webhook asynchronously and using embeds 
 * `simpleSynchronous.py` - Sending a webhook synchronously and using embeds without any need for discord.py
 * `fetchWebhook.py` - Fetching information about a webhook synchronously

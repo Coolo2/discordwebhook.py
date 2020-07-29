@@ -42,7 +42,7 @@ Or download it from the `PyPi page <https://pypi.org/project/discordwebhook.py/>
 #############################################
 
 | Creating webhooks and embeds synchronously 
-| Has alias `discordwebhook.use` post version `0.0.9`
+| Has alias `discordwebhook.use` post version `0.1.0`
 
 ***************************************************************************
 `.create`.Webhook(url : str [optional, can be provided with .send])
@@ -144,7 +144,7 @@ Or download it from the `PyPi page <https://pypi.org/project/discordwebhook.py/>
 #############################
 
 | Asynchronous creation functions and classes
-| Has alias `discordwebhook.asyncUse` post version `0.0.9`
+| Has alias `discordwebhook.asyncUse` post version `0.1.0`
 
 ****************************************************************************
 `.asyncCreate`.Webhook(url : str [optional, can be provided with .send])
@@ -306,7 +306,13 @@ Version History
 ##########################
 
 *********************************
-0.1.0 - 29th July 2020 (current)
+0.1.1 - 29th July 2020 (current)
+*********************************
+
+| Fix version number issues with 0.1.0
+
+*********************************
+0.1.0 - 29th July 2020
 *********************************
 
  | Fixed asyncCreate not returning any values

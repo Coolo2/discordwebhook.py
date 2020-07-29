@@ -70,7 +70,12 @@ Or download it from the `PyPi page <https://pypi.org/project/discordwebhook.py/>
 
     Set what mentions will work for the webhook - setting an option to False will disable mentions from working
 
-**.send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
+**.send(webhook_url, embed=(.create.Embed() object), **
+    **embeds=[array of .create.Embed() objects], **
+    **message=[optional str], **
+    **tts=[optional boolean], **
+    **username=[optional str], **
+    **avatar_url=[optional str])**
 
     | Synchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
     | A message argument can be added for one line webhook sends
@@ -173,7 +178,12 @@ Or download it from the `PyPi page <https://pypi.org/project/discordwebhook.py/>
 
     Set what mentions will work for the webhook - setting an option to False will disable mentions from working
 
-**await .send(webhook_url, embed=(.create.Embed() object), embeds=[array of .create.Embed() objects])**
+**await .send(webhook_url, embed=(.create.Embed() object), **
+    **embeds=[array of .create.Embed() objects], **
+    **message=[optional str], **
+    **tts=[optional boolean], **
+    **username=[optional str], **
+    **avatar_url=[optional str])**
 
     | Asynchronously send a webhook to the webhook_url provided - Only works for discord webhook urls
     | A message argument can be added for one line webhook sends
@@ -306,7 +316,13 @@ Version History
 ##########################
 
 *********************************
-0.1.1 - 29th July 2020 (current)
+0.1.2 - 29th July 2020 (current)
+*********************************
+
+| Added ability to set username and avatar_url in Webhook().send() with alias author
+
+*********************************
+0.1.1 - 29th July 2020
 *********************************
 
 | Fix version number issues with 0.1.0

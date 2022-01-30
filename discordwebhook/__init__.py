@@ -1,2 +1,9 @@
-from discordwebhook import create, asyncCreate, fetch
-import json, datetime, aiohttp, requests
+
+from discordwebhook import versions, webhook, embed, allowedmentions
+
+
+Webhook = webhook.Webhook
+Embed = embed.Embed
+AllowedMentions = allowedmentions.AllowedMentions
+
+CurrentVersion = versions.Current

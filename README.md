@@ -1,26 +1,69 @@
-# discordwebhook.py 0.1.2
-A python package for using discord webhooks. The only with asynchronous and synchronous options and fetching webhook information. Useful for projects which may require the use of discord.py or projects that dont
+# discordwebhook.py
 
-[Documentation](https://discordwebhook.readthedocs.io/en/latest/) | [PyPi](https://pypi.org/project/discordwebhook.py/)
+![Downloads](https://img.shields.io/pypi/dm/discordwebhook.py)
+![Version](https://img.shields.io/pypi/v/discordwebhook.py)
+![Discord](https://img.shields.io/discord/937336250191458334?label=discord)
 
-Installation
-```
-pip install discordwebhook.py
-```
 
-Basic example
+A python package for using discord webhooks. The only with asynchronous and synchronous options and fetching webhook information. A lightweight alternative to a full Discord API wrapper, just for webhooks.
+
+For documentation see the [readthedocs page](https://discordwebhook.readthedocs.io/en/latest/)
+For downloads see the [PyPi page](https://pypi.org/project/discordwebhook.py/)
+
+For extra support join [the Discord server](https://discord.gg/5EhsXvShBE)
+
+
+
+# Installation
+```pip install discordwebhook.py```
+
+
+## Examples
+
+### Basic synchronous example
 ```python
-from discordwebhook import create # Import discordwebhook create
+import discordwebhook
 
-webhook = create.Webhook("WEBHOOK_URL") # Create Webhook object
+# Create the webhook. Parameter url="webhook_url" can be added here instead of in method .sendSync()
+webhook = discordwebhook.Webhook(
+    url="webhook_url"
+)
 
+# OPTIONAL - Get webhook username and avatar (sends request to discord)
+webhook_data = webhook.fetch_data_sync()
 
-webhook.username("Example Webhook") # Override webhook username as 'Example Webhook'
-webhook.message("Hello! This is a message from an example webhook with the `discordwebhook.py` library!") # Message to go with the embed
+# Add embed with title "Embed title", same as discord.py
+embed = discordwebhook.Embed(
+    title="Embed title",
+)
 
-embed = create.Embed(title="Github Logo", color=0x808080) # Create embed object, Embed title as 'Github Logo', Gray embed color
-embed.set_image(url="https://image.flaticon.com/icons/png/512/25/25231.png") # Embed image as github logo
+# Add a field to the embed, exactly the same as discord.py
+embed.add_field(name="Field title", value="Exact same as discord.py, however can be used synchronously", inline=False)
 
-webhook.send(embed=embed) #Send webhook to given link with the embed
+# Post webhook to URL synchronously. Use await webhook.send_async to send asynchronously
+webhook.send_sync(
+    f"This webhook's original username was **{webhook_data.username}**", # Webhook message content
+    username="Coolo2", # Overwrite webhook username, can also be defined when class is initialized
+    embed=embed # Embeds can also be set with embeds=[embed]
+)
 ```
-Example with a fully formatted embed, message, custom username 
+### Fetch example
+```python
+import discordwebhook 
+
+webhook = discordwebhook.Webhook(
+    url="webhook_url"
+)
+
+# Can be used synchronously and asynchronously with fetch_data_async. Returns current Webhook class
+webhook.fetch_data_sync()
+
+print(webhook.id)
+print(webhook.url)
+
+print(webhook.name)
+print(webhook.icon_url)
+
+print(webhook.channel_id)
+print(webhook.guild_id)
+```

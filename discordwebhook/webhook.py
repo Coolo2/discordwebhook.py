@@ -1,7 +1,6 @@
 """
 Creation of Webhooks and Embeds synchronously
 """
-from types import NoneType
 from discordwebhook import allowedmentions, embed, errors
 from typing import List, Optional
 
@@ -105,7 +104,7 @@ class Webhook():
         avatar_url : str = None,
         is_tts : bool = False,
         content : str = None,
-        embed : embed.Embed | NoneType = None,
+        embed : embed.Embed = None,
         embeds : List[embed.Embed] = [],
         allowed_mentions : allowedmentions.AllowedMentions = allowedmentions.AllowedMentions()
     ):

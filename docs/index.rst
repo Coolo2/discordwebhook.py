@@ -352,6 +352,11 @@ More examples can be found at the `GitHub page Examples folder <https://github.c
 Version History
 --------------------
 
+1.0.2 - 30th January 2022 (current)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fixed bugs with 1.0.1
+
 1.0.1 - 30th January 2022 (current)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

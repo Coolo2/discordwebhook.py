@@ -352,7 +352,7 @@ More examples can be found at the `GitHub page Examples folder <https://github.c
 Version History
 --------------------
 
-1.0.0 - 30th January 2022 (current)
+1.0.1 - 30th January 2022 (current)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Rewritten the whole library. Too many changes to show, see documentation.

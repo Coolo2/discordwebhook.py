@@ -1,7 +1,13 @@
 from distutils.core import setup
 long_description="""
-| A simple python package for posting to discord webhooks in python
-| Has asynchronous and synchronous options
+[![Downloads](https://pepy.tech/badge/discordwebhook-py)](https://pepy.tech/project/discordwebhook-py)
+[![Downloads](https://pepy.tech/badge/discordwebhook-py/month)](https://pepy.tech/project/discordwebhook-py)
+![Version](https://img.shields.io/pypi/v/discordwebhook.py)
+![Discord](https://img.shields.io/discord/937336250191458334?label=discord)
+
+A simple python package for posting to discord webhooks in python
+
+Has asynchronous and synchronous options
 
 [Discord](https://discord.gg/5EhsXvShBE)
 

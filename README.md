@@ -1,6 +1,7 @@
 # discordwebhook.py
 
-![Downloads](https://img.shields.io/pypi/dm/discordwebhook.py)
+[![Downloads](https://pepy.tech/badge/discordwebhook-py)](https://pepy.tech/project/discordwebhook-py)
+[![Downloads](https://pepy.tech/badge/discordwebhook-py/month)](https://pepy.tech/project/discordwebhook-py)
 ![Version](https://img.shields.io/pypi/v/discordwebhook.py)
 ![Discord](https://img.shields.io/discord/937336250191458334?label=discord)
 

@@ -1,12 +1,8 @@
 """
-Creation of Webhooks and Embeds synchronously
+Creation of Webhooks
 """
-from discordwebhook import allowedmentions, embed, errors
+from discordwebhook import allowedmentions, embed, errors, http, message, file
 from typing import List, Optional
-
-import requests 
-import aiohttp 
-import json
 
 class ErrorHandling:
     def requestErrors(self, webhook):
@@ -22,6 +18,7 @@ class Webhook():
         url : Optional[str] = None
     ):
         self.url = url
+        self.http = http.http()
 
         self.username = None 
         self.name = None 
@@ -33,15 +30,8 @@ class Webhook():
         self.channel_id = None 
 
         self.id = None 
-
-    def fetch_data_sync(self, url : Optional[str] = None):
-        if url != None:
-            self.url = url
-        elif self.url == None:
-            raise Exception("No url provided")  
-        
-        data = requests.get(self.url).json()
-
+    
+    def _build_from_data(self, data : dict):
         self.username = data["name"]
         self.name = self.username 
         self.avatar_url = data["avatar"]
@@ -51,30 +41,72 @@ class Webhook():
         self.channel_id = data["channel_id"]
         self.guild_id = data["guild_id"]
         self.token = data["token"]
-
-        return self
     
-    async def fetch_data_async(self, url : Optional[str] = None):
-        if url != None:
-            self.url = url
-        elif self.url == None:
+    def fetch_message_sync(self, message_id : int):
+        return self.http.event_loop.run_until_complete(
+            self.fetch_message_async(message_id)
+        )
+    
+    async def fetch_message_async(self, message_id : int):
+        if self.url == None:
+            raise Exception("No url provided")  
+
+        data = await self.http.get_async(url=self.url + f"/messages/{message_id}")
+
+        return message.WebhookMessage(self, data)
+
+    def modify_sync(
+        self,
+        name : str,
+        channel_id : int
+    ):
+        return self.http.event_loop.run_until_complete(
+            self.modify_async(name, channel_id)
+        )
+    
+    async def modify_async(
+        self,
+        name : str,
+        channel_id : int
+    ):
+        if self.url == None:
             raise Exception("No url provided")  
         
-        async with aiohttp.ClientSession() as session:
-            async with session.get(self.url, headers={"Content-Type": "application/json"}) as response:
-                data = await response.json()
+        data = await self.http.patch_async({"name":name, "channel_id":str(channel_id)}, url=self.url)
 
-                self.username = data["name"]
-                self.name = self.username 
-                self.avatar_url = data["avatar"]
-                self.icon_url = self.avatar_url 
+        self.id = data["id"]
+        self.name = data["name"]
+        self.channel_id = data["channel_id"]
+        self.guild_id = data["guild_id"]
+        self.token = data["token"]
+        
+        return self
 
-                self.id = data["id"]
-                self.channel_id = data["channel_id"]
-                self.guild_id = data["guild_id"]
-                self.token = data["token"]
+    def delete_sync(self):
+        return self.http.event_loop.run_until_complete(
+            self.delete_async()
+        )
+    
+    async def delete_async(self):
+        if self.url == None:
+            raise Exception("No url provided")  
+        
+        await self.http.request("DELETE", url=self.url)
 
-                return self
+    def fetch_data_sync(self):
+        return self.http.event_loop.run_until_complete(
+            self.fetch_data_async()
+        )
+    
+    async def fetch_data_async(self):
+        if self.url == None:
+            raise Exception("No url provided")  
+        
+        data = await self.http.get_async(url=self.url)
+
+        self._build_from_data(data)
+
+        return self
 
     def to_dict(self):
         self.raw = {}
@@ -94,9 +126,7 @@ class Webhook():
 
         return self.raw
     
-    def _check_errors(self, response : dict):
-        if "allowed_mentions" in response:
-            raise errors.MutuallyExclusiveError("Allowed mentions are mutually exclusive")
+    
     
     def _parse_options(
         self, 
@@ -126,7 +156,6 @@ class Webhook():
             "allowed_mentions":allowed_mentions.to_dict()
         }
     
-
     def send_sync(
         self, 
         content : Optional[str] = None,
@@ -136,26 +165,17 @@ class Webhook():
         is_tts : Optional[bool] = False,
         embed : Optional[embed.Embed] = None,
         embeds : Optional[List[embed.Embed]] = None,
-        allowed_mentions : Optional[allowedmentions.AllowedMentions] = allowedmentions.AllowedMentions()
+        allowed_mentions : Optional[allowedmentions.AllowedMentions] = allowedmentions.AllowedMentions(),
+        file : file.File = None,
+        files : List[file.File] = []
     ):
-        """send the webhook synchronously"""
 
-        if url != None:
-            self.url = url
-        elif self.url == None:
-            raise Exception("No url provided")  
-        
-        raw = self._parse_options(username, avatar_url, is_tts, content, embed, embeds, allowed_mentions)
+        return self.http.event_loop.run_until_complete(
+            self.send_async(
+                content, url, username, avatar_url, is_tts, embed, embeds, allowed_mentions, file, files
+            )
+        )
 
-        ErrorHandling.requestErrors(self, raw)
-
-        result = requests.post(self.url, data=json.dumps(raw), headers={"Content-Type": "application/json"})
-        
-        try:
-            result.raise_for_status()
-        except:
-            self._check_errors(result.json())
-    
     async def send_async(self, 
         content : Optional[str] = None,
         url : Optional[str] = None, 
@@ -164,7 +184,9 @@ class Webhook():
         is_tts : Optional[bool] = False,
         embed : Optional[embed.Embed] = None,
         embeds : Optional[List[embed.Embed]] = None,
-        allowed_mentions : Optional[allowedmentions.AllowedMentions] = allowedmentions.AllowedMentions()
+        allowed_mentions : Optional[allowedmentions.AllowedMentions] = allowedmentions.AllowedMentions(),
+        file : file.File = None,
+        files : List[file.File] = []
     ):
         """send the webhook asynchronously"""
 
@@ -177,11 +199,15 @@ class Webhook():
 
         ErrorHandling.requestErrors(self, raw)
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.url, data=json.dumps(raw), headers={"Content-Type": "application/json"}) as response:
-                try:
-                    response.raise_for_status()
-                except:
-                    self._check_errors(await response.json())
+        data = await self.http.request(
+            "POST", 
+            raw, 
+            url=self.url, 
+            params={"wait":"true"}, 
+            files=[file] if files == [] and file else files
+        )
+
+        return message.WebhookMessage(self, data)
+
 
     

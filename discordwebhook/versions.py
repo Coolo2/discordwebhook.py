@@ -1,4 +1,4 @@
 
 class Current:
-    name = "1.0.2"
-    release_date = "30 January 2022"
+    name = "1.1.0"
+    release_date = "5 Febuary 2022"

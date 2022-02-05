@@ -1,6 +1,6 @@
 from setuptools import setup, Extension
 
-version = "1.0.2"
+version = "1.1.0"
 
 setup(
   name = 'discordwebhook.py',         
@@ -18,8 +18,8 @@ setup(
   author_email = 'itsxcoolo2@gmail.com',      
   url = 'https://github.com/Coolo22/discordwebhook.py',   
   download_url = 'https://github.com/Coolo22/discordwebhook.py/raw/master/Archive/discordwebhook.py-' + version + '.tar.gz',    
-  keywords = ['discord', 'webhook', 'python', 'simple', 'post', 'asynchronous', 'synchronous'],   
-  install_requires=['aiohttp', 'requests'],
+  keywords = ['discord', 'webhook', 'python', 'api', 'post', 'asynchronous', 'synchronous'],   
+  install_requires=['aiohttp', 'nest_asyncio'],
   classifiers=[
     'Development Status :: 5 - Production/Stable', 
     'Intended Audience :: Developers',      

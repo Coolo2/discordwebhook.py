@@ -1,6 +1,6 @@
 
 discordwebhook.py
-==================
+===================
 
 `PyPi page <https://pypi.org/project/discordwebhook.py/>`_ | `GitHub page <https://github.com/Coolo22/discordwebhook.py/>`_
 
@@ -13,8 +13,9 @@ It is a lightweight, sync and async ready wrapper for Discord API Webhooks.
 * Modern
 * Asynchronous and synchronous support
 * In-built embed support - no need for another package such as discord.py 
-* Methods for fetching discord webhook information and posting
+* Full coverage of the webhook API. Read, Modify, Delete and Execute webhooks (and delete/edit/fetch messages)
 * Easy to use, fully documented
+* Rate limit handling
 
 
 Setup
@@ -48,6 +49,18 @@ discordwebhook.Webhook
      - .send_sync
    * - 
      - .send_async
+   * - 
+     - .modify_sync
+   * - 
+     - .modify_async
+   * - 
+     - .delete_sync
+   * - 
+     - .delete_async
+   * - 
+     - .fetch_message_sync
+   * - 
+     - .fetch_message_async
 
 Parameters 
 ***********
@@ -66,6 +79,8 @@ Parameters
 
     **url : Optional[str] = None** - An optional URL to overwrite the Webhook object
 
+Returns **discordwebhook.Webhook** and updates current Webhook object
+
 *await*   .fetch_data_async(url = None)
 ###########################################
 
@@ -74,8 +89,10 @@ Parameters
 
     **url : Optional[str] = None** - An optional URL to overwrite the Webhook object
 
-.send_sync(content = None, url = None, username = None, avatar_url = None, is_tts = False, embed = None, embeds = None, allowed_mentions = allowedmentions.AllowedMentions())
-##############################################################################################################################################################################################
+Returns **discordwebhook.Webhook** and updates current Webhook object
+
+.send_sync(content = None, url = None, username = None, avatar_url = None, is_tts = False, embed = None, embeds = None, allowed_mentions = allowedmentions.AllowedMentions(), file = None, files = [])
+##################################################################################################################################################################################################################
 
 Parameters
 ***********
@@ -95,13 +112,19 @@ Parameters
     **embeds : Optional[List[discordwebhook.Embed]]** - Optional list of embeds 
 
     **allowed_mentions : Optional[discordwebhook.AllowedMentions]** - The allowed mentions for the message
+
+    **file : Optional[discordwebhook.File] = None** - A single file to add to a message
+
+    **files : Optional[List[discordwebhook.File]] = []** - A list of files to attach
 
 Synchronously send a message to the webhook. 
 
 Throws error if no url is provided (through the class or method)
 
-*await* .send_async(content = None, url = None, username = None, avatar_url = None, is_tts = False, embed = None, embeds = None, allowed_mentions = allowedmentions.AllowedMentions())
-##############################################################################################################################################################################################
+Returns **discordwebhook.WebhookMessage**
+
+*await* .send_async(content = None, url = None, username = None, avatar_url = None, is_tts = False, embed = None, embeds = None, allowed_mentions = allowedmentions.AllowedMentions(), file = None, files = [])
+####################################################################################################################################################################################################################
 
 Parameters
 ***********
@@ -122,9 +145,195 @@ Parameters
 
     **allowed_mentions : Optional[discordwebhook.AllowedMentions]** - The allowed mentions for the message
 
+    **file : Optional[discordwebhook.File] = None** - A single file to add to a message
+
+    **files : Optional[List[discordwebhook.File]] = []** - A list of files to attach
+
 Aynchronously send a message to the webhook. 
 
 Throws error if no url is provided (through the class or method)
+
+Returns **discordwebhook.WebhookMessage**
+
+.modify_sync(name, channel_id)
+##################################
+
+Parameters
+***********
+
+    **name : str** - The updated name for the Webhook
+
+    **channel_id : int** - The channel ID to move the webhook to.
+
+Synchronously modify the name and channel of the webhook
+
+Returns **discordwebhook.Webhook** and updates current Webhook object
+
+*await* .modify_async(name, channel_id)
+##############################################
+
+Parameters
+***********
+
+    **name : str** - The updated name for the Webhook
+
+    **channel_id : int** - The channel ID to move the webhook to.
+
+Asynchronously modify the name and channel of the webhook
+
+Returns **discordwebhook.Webhook** and updates current Webhook object
+
+.delete_sync()
+##################################
+
+Synchronously delete the webhook
+
+*await* .delete_async()
+##############################################
+
+Asynchronously delete the webhook
+
+.fetch_message_sync(message_id)
+##################################
+
+Parameters
+***********
+
+    **message_id : int** - The message ID to fetch information for
+
+Synchronously get message data from an ID
+
+Returns **discordwebhook.WebhookMessage**
+
+*await* .fetch_message_async(message_id)
+###########################################
+
+Parameters
+***********
+
+    **message_id : int** - The message ID to fetch information for
+
+Asynchronously get message data from an ID
+
+Returns **discordwebhook.WebhookMessage**
+
+discordwebhook.WebhookMessage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table:: discordwebhook.WebhookMessage
+   :widths: 50 50
+   :header-rows: 1
+
+   * - Parameters
+     - Methods
+   * - webhook : discordwebhook.Webhook
+     - .delete_sync
+   * - data : dict
+     - .delete_async
+   * - 
+     - .edit_sync
+   * - 
+     - .edit_async
+
+Parameters 
+***********
+
+    **webhook : discordwebhook.Webhook** - The webhook this message belongs to
+
+    **data : dict** - The raw message data
+
+WebhookMessage object
+
+Returned from **Webhook.fetch_message** and **Webhook.send**
+
+.delete_sync()
+#############################
+
+Deletes the message synchronously
+
+*await* .delete_async()
+#############################
+
+Deletes the message asynchronously
+
+.edit_sync(content = None, embed = None, embeds = None, allowed_mentions = discordwebhook.AllowedMentions(), file = None, files = [])
+##############################################################################################################################################
+
+Parameters
+***********
+
+    **content : Optional[str] = None** - The content to update the message with
+
+    **embed : Optional[discordwebhook.Embed] = None** - Single embed for the message 
+
+    **embeds : Optional[List[discordwebhook.Embed]] = None** - An array of embeds 
+
+    **allowed_mentions : Optional[discordwebhook.AllowedMentions] = discordwebhook.AllowedMentions()** - The mentions that will work with the message
+
+    **file : Optional[discordwebhook.File] = None** - A single file to add to a message
+
+    **files : Optional[List[discordwebhook.File]] = []** - A list of files to attach
+
+Synchronously edit the message
+
+Returns **discordwebhook.WebhookMessage**
+
+*await* .edit_async(content = None, embed = None, embeds = None, allowed_mentions = discordwebhook.AllowedMentions(), file = None, files = [])
+###########################################################################################################################################################
+
+Parameters
+***********
+
+    **content : Optional[str] = None** - The content to update the message with
+
+    **embed : Optional[discordwebhook.Embed] = None** - Single embed for the message 
+
+    **embeds : Optional[List[discordwebhook.Embed]] = None** - An array of embeds 
+
+    **allowed_mentions : Optional[discordwebhook.AllowedMentions] = discordwebhook.AllowedMentions()** - The mentions that will work with the message
+
+    **file : Optional[discordwebhook.File] = None** - A single file to add to a message
+
+    **files : Optional[List[discordwebhook.File]] = []** - A list of files to attach
+
+Asynchronously edit the message
+
+Returns **discordwebhook.WebhookMessage**
+
+discordwebhook.File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table:: discordwebhook.File
+   :widths: 50 50
+   :header-rows: 1
+
+   * - Parameters
+     - Methods
+   * - path : str
+     - .open
+   * - fp : File
+     - .close
+   * - name : str
+     -  
+
+Parameters 
+***********
+
+    **path : str** - The file path to the file
+
+    **fp : File** - The file data of the file. Use instead of path
+
+    **name : str** - Custom name for the file. Required if using fp
+  
+.open()
+############
+
+Open the file from the path or fp
+
+.close()
+############
+
+Close the file if it has been opened
 
 discordwebhook.Embed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,12 +561,21 @@ More examples can be found at the `GitHub page Examples folder <https://github.c
 Version History
 --------------------
 
-1.0.2 - 30th January 2022 (current)
+1.1.0 - 5th Feb 2022
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Added discordwebhook.File - Attach a file to a webhook
+* Added Webhook.modify - Modify a webhook 
+* Added Webhook.delete - Delete a webhook
+* Added discordwebhook.WebhookMessage 
+* This allows messages to be edited and deleted. See documentation
+
+1.0.2 - 30th January 2022 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Fixed bugs with 1.0.1
 
-1.0.1 - 30th January 2022 (current)
+1.0.1 - 30th January 2022
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Rewritten the whole library. Too many changes to show, see documentation.

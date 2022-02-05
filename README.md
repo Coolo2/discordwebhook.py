@@ -21,17 +21,14 @@ For extra support join [the Discord server](https://discord.gg/5EhsXvShBE)
 
 ## Examples
 
-### Basic synchronous example
+### Basic example
 ```python
 import discordwebhook
 
-# Create the webhook. Parameter url="webhook_url" can be added here instead of in method .sendSync()
+# Create the webhook. 
 webhook = discordwebhook.Webhook(
     url="webhook_url"
 )
-
-# OPTIONAL - Get webhook username and avatar (sends request to discord)
-webhook_data = webhook.fetch_data_sync()
 
 # Add embed with title "Embed title", same as discord.py
 embed = discordwebhook.Embed(
@@ -39,11 +36,11 @@ embed = discordwebhook.Embed(
 )
 
 # Add a field to the embed, exactly the same as discord.py
-embed.add_field(name="Field title", value="Exact same as discord.py, however can be used synchronously", inline=False)
+embed.add_field(name="Field title", value="Exact same as discord.py, however is lighter", inline=False)
 
-# Post webhook to URL synchronously. Use await webhook.send_async to send asynchronously
+# Post webhook to URL synchronously. Can be await webhook.send_async to send asynchronously
 webhook.send_sync(
-    f"This webhook's original username was **{webhook_data.username}**", # Webhook message content
+    f"This is the message content!", # Webhook message content
     username="Coolo2", # Overwrite webhook username, can also be defined when class is initialized
     embed=embed # Embeds can also be set with embeds=[embed]
 )
@@ -68,3 +65,30 @@ print(webhook.icon_url)
 print(webhook.channel_id)
 print(webhook.guild_id)
 ```
+### Editing and deleting messages example
+```python
+import discordwebhook 
+import time
+
+# Initialise the webhook object.
+webhook = discordwebhook.Webhook(
+    url="webhook_url"
+)
+
+# Send a message to the webhook
+message = webhook.send_sync(
+    content="The message content goes here"
+)
+
+time.sleep(1) # wait 1 second before editing
+
+# Edit the message with new content, but keep the embed (as it is left empty)
+message.edit_sync(
+    content="New message content! It has been 1 second since the webhook was sent"
+)
+
+time.sleep(5) # wait 5 seconds before deleting
+
+message.delete_sync()
+```
+

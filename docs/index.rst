@@ -561,7 +561,7 @@ More examples can be found at the `GitHub page Examples folder <https://github.c
 Version History
 --------------------
 
-1.1.1 - 6th August 2022
+1.1.2- 6th August 2022
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Fix editing message embeds

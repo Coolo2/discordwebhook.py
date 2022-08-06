@@ -18,12 +18,12 @@ class Webhook():
     def __init__(
         self, 
         url : Optional[str],
-        #caching : bool = True
+        caching : bool = True
     ):
         
         self.url = url
         self.http = http.http()
-        #self.caching = caching
+        self.caching = caching
 
         self.username = None 
         self.name = None 
@@ -38,8 +38,8 @@ class Webhook():
 
         self.messages : List[message.WebhookMessage] = []
 
-        #if caching:
-        #    self._do_cache()
+        if caching:
+            self._do_cache()
     
     def _do_cache(self):
 

@@ -6,5 +6,5 @@ webhook = discordwebhook.Webhook("https://canary.discord.com/api/webhooks/751856
 msg = webhook.fetch_message_sync(1005496216341200938)
 
 msg.edit_sync(content="hellotest5", 
-    embed=discordwebhook.Embed(title="hi", description="hello")
+    embeds=[discordwebhook.Embed(title="hi", description="hello")]
 )

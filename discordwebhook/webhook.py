@@ -1,8 +1,10 @@
 """
 Creation of Webhooks
 """
-from discordwebhook import allowedmentions, embed, errors, http, message, file
+from discordwebhook import allowedmentions, embed, errors, http, message, file, cache
 from typing import List, Optional
+
+Cache = cache.WebhookCache()
 
 class ErrorHandling:
     def requestErrors(self, webhook):
@@ -15,10 +17,13 @@ class ErrorHandling:
 class Webhook():
     def __init__(
         self, 
-        url : Optional[str] = None
+        url : Optional[str],
+        #caching : bool = True
     ):
+        
         self.url = url
         self.http = http.http()
+        #self.caching = caching
 
         self.username = None 
         self.name = None 
@@ -30,7 +35,34 @@ class Webhook():
         self.channel_id = None 
 
         self.id = None 
+
+        self.messages : List[message.WebhookMessage] = []
+
+        #if caching:
+        #    self._do_cache()
     
+    def _do_cache(self):
+
+        cachedWebhook = Cache.get_webhook(self.url)
+
+        if cachedWebhook:
+
+            self.username = cachedWebhook.username 
+            self.name = self.username 
+
+            self.avatar_url = cachedWebhook.avatar_url
+            self.icon_url = self.avatar_url 
+
+            self.guild_id = cachedWebhook.guild_id 
+            self.channel_id = cachedWebhook.channel_id 
+
+            self.id = cachedWebhook.id 
+
+            self.messages = cachedWebhook.messages
+
+        Cache._add_replace_webhook(self)
+        
+
     def _build_from_data(self, data : dict):
         self.username = data["name"]
         self.name = self.username 
@@ -42,18 +74,39 @@ class Webhook():
         self.guild_id = data["guild_id"]
         self.token = data["token"]
     
+    def get_message(self, message_id : int) -> message.WebhookMessage | None:
+
+        for _message in self.messages:
+            if int(_message.id) == int(message_id):
+                return _message 
+        
+        return None
+    
+    def _add_replace_message(self, message : message.WebhookMessage) -> None:
+        if self.caching:
+
+            cache_msg = self.get_message(message.id)
+
+            if cache_msg:
+                self.messages[ self.messages.index(cache_msg) ] = message 
+            else:
+                self.messages.append(message)
+
     def fetch_message_sync(self, message_id : int):
+        
         return self.http.event_loop.run_until_complete(
             self.fetch_message_async(message_id)
         )
     
     async def fetch_message_async(self, message_id : int):
-        if self.url == None:
-            raise Exception("No url provided")  
 
         data = await self.http.get_async(url=self.url + f"/messages/{message_id}")
 
-        return message.WebhookMessage(self, data)
+        msg = message.WebhookMessage(self, data)
+
+        self._add_replace_message(msg)
+
+        return msg
 
     def modify_sync(
         self,
@@ -69,8 +122,6 @@ class Webhook():
         name : str,
         channel_id : int
     ):
-        if self.url == None:
-            raise Exception("No url provided")  
         
         data = await self.http.patch_async({"name":name, "channel_id":str(channel_id)}, url=self.url)
 
@@ -159,7 +210,6 @@ class Webhook():
     def send_sync(
         self, 
         content : Optional[str] = None,
-        url : Optional[str] =None, 
         username : Optional[str] = None,
         avatar_url : Optional[str] = None,
         is_tts : Optional[bool] = False,
@@ -172,13 +222,12 @@ class Webhook():
 
         return self.http.event_loop.run_until_complete(
             self.send_async(
-                content, url, username, avatar_url, is_tts, embed, embeds, allowed_mentions, file, files
+                content, username, avatar_url, is_tts, embed, embeds, allowed_mentions, file, files
             )
         )
 
     async def send_async(self, 
         content : Optional[str] = None,
-        url : Optional[str] = None, 
         username : Optional[str] = None,
         avatar_url : Optional[str] = None,
         is_tts : Optional[bool] = False,
@@ -189,11 +238,6 @@ class Webhook():
         files : List[file.File] = []
     ):
         """send the webhook asynchronously"""
-
-        if url != None:
-            self.url = url
-        elif self.url == None:
-            raise Exception("No url provided")  
         
         raw = self._parse_options(username, avatar_url, is_tts, content, embed, embeds, allowed_mentions)
 
@@ -207,7 +251,15 @@ class Webhook():
             files=[file] if files == [] and file else files
         )
 
-        return message.WebhookMessage(self, data)
+        msg = message.WebhookMessage(self, data)
+
+        self._add_replace_message(msg)
+
+        return msg
+    
+    send = send_async 
+    fetch_data = fetch_data_async
+    fetch_message = fetch_message_async
 
 
     

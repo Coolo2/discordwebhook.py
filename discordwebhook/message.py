@@ -31,22 +31,22 @@ class WebhookMessage():
         embeds : List[embed.Embed] = [],
         allowed_mentions : allowedmentions.AllowedMentions = allowedmentions.AllowedMentions()
     ):
-        if embeds == None:
-            embeds = []
-        if embed:
-            embeds.append(embed)
-
         embedsBuild = []
-        for embed in embeds:
+
+        if embed:
             embedsBuild.append(embed.to_dict())
+
+        if embeds:
+            for embed in embeds:
+                embedsBuild.append(embed.to_dict())
         
         data = {
             "content":content,
             "allowed_mentions":allowed_mentions.to_dict()
         }
 
-        if embeds != []:
-            data["embeds"] = embeds
+        if embedsBuild != []:
+            data["embeds"] = embedsBuild
 
         return data
 

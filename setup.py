@@ -1,6 +1,6 @@
 from setuptools import setup, Extension
 
-version = "1.1.0"
+version = "1.1.1"
 
 setup(
   name = 'discordwebhook.py',         
